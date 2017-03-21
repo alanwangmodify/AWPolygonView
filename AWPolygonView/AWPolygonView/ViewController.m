@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "AWPolygonView.h"
 
 @interface ViewController ()
 
@@ -16,7 +17,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    AWPolygonView *view = [[AWPolygonView alloc] initWithFrame:CGRectMake(100, 100, 200, 200)];
+    view.values = @[@(0.3),@(0.4),@(0.6),@(0.7)];
+    view.backgroundColor = [UIColor grayColor];
+    [self.view addSubview:view];
+    
+
 }
 
 

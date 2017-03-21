@@ -35,8 +35,8 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [self prepaeData];
-        [self makePoints];
+
+        
     }
     return self;
 }
@@ -74,7 +74,12 @@
     self.valuePoints = [tempValuePoints copy];
     
 }
+- (void)setValues:(NSArray *)values {
+    _values = values;
+    [self prepaeData];
+    [self makePoints];
 
+}
 #pragma mark - draw
 - (void)drawRect:(CGRect)rect {
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -83,6 +88,19 @@
 }
 
 - (void)drawSideWithContext:(CGContextRef )context {
+    
+    if (self.cornerPoints.count == 0) {
+        return;
+    }
+    CGPoint firstPoint = [self.cornerPoints[0] CGPointValue];
+    CGContextMoveToPoint(context, firstPoint.x, firstPoint.y);
+    for (int i = 1; i < self.cornerPoints.count; i++) {
+
+        CGPoint point = [self.cornerPoints[i] CGPointValue];
+        CGContextAddLineToPoint(context, point.x, point.y);
+        CGContextSetLineWidth(context, 1);
+        CGContextSetFillColorWithColor(context, [UIColor yellowColor].CGColor);
+    }
     
 }
 
