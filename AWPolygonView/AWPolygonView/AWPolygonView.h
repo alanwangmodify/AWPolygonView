@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface AWPolygonView : UIView
+
 @property (nonatomic, strong) NSArray               *values;
+@property (nonatomic, strong) UIColor               *lineColor;
+@property (nonatomic, assign) CGFloat               radius;
+
 @end

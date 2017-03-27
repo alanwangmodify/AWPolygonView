@@ -13,9 +13,11 @@
 #define ANGLE_SIN(Angle) sin(M_PI / 180 * (Angle))
 
 
+
+
 @interface AWPolygonView ()
 
-@property (nonatomic, assign) CGFloat               radius;
+
 @property (nonatomic, assign) NSInteger             sideNum;
 @property (nonatomic, strong) NSArray               *cornerPoints;
 @property (nonatomic, strong) NSArray               *valuePoints;
@@ -35,8 +37,6 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-
-        
     }
     return self;
 }
@@ -45,7 +45,10 @@
 - (void)prepaeData {
     self.sideNum = self.values.count;
     if (self.radius == 0) {
-        self.radius = self.bounds.size.width;
+        self.radius = self.bounds.size.width/2;
+    }
+    if (!self.lineColor) {
+        self.lineColor = [UIColor yellowColor];
     }
 }
 
@@ -59,13 +62,13 @@
     
     for (int i = 0; i < self.sideNum; i++) {
         
-        CGPoint cornerPoint = CGPointMake(centerX - ANGLE_COS(90.0 - 360.0 * i) * self.radius, centerY - ANGLE_SIN(90.0 - 360.0 * i) * self.radius);
+        CGPoint cornerPoint = CGPointMake(centerX - ANGLE_COS(90.0 - 360.0 /self.sideNum * i) * self.radius, centerY - ANGLE_SIN(90.0 - 360.0 /self.sideNum * i) * self.radius);
         
         [tempCornerPoints addObject:[NSValue valueWithCGPoint:cornerPoint]];
         
         if (self.values.count > i) {
             CGFloat valueRadius = [self.values[i] floatValue] * self.radius;
-            CGPoint valuePoint =  CGPointMake(centerX - ANGLE_COS(90.0 - 360.0 * i) * valueRadius, centerY - ANGLE_SIN(90.0 - 360.0 * i) * valueRadius);
+            CGPoint valuePoint =  CGPointMake(centerX - ANGLE_COS(90.0 - 360.0 /self.sideNum * i) * valueRadius, centerY - ANGLE_SIN(90.0 - 360.0 /self.sideNum * i) * valueRadius);
             [tempValuePoints addObject:[NSValue valueWithCGPoint:valuePoint]];
         }
     }
@@ -74,6 +77,22 @@
     self.valuePoints = [tempValuePoints copy];
     
 }
+- (NSArray *)getPointsWithRadius:(CGFloat )radius {
+    
+    CGFloat centerX = self.bounds.size.width/2;
+    CGFloat centerY = self.bounds.size.height/2;
+    NSMutableArray *inCornerPoints = [NSMutableArray new];
+
+    for (int i = 0; i < self.sideNum; i++) {
+        
+        CGPoint cornerPoint = CGPointMake(centerX - ANGLE_COS(90.0 - 360.0 /self.sideNum * i) * self.radius, centerY - ANGLE_SIN(90.0 - 360.0 /self.sideNum * i) * self.radius);
+        
+        [inCornerPoints addObject:[NSValue valueWithCGPoint:cornerPoint]];
+    }
+    return [inCornerPoints copy];
+}
+
+
 - (void)setValues:(NSArray *)values {
     _values = values;
     [self prepaeData];
@@ -85,7 +104,9 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
   
     [self drawSideWithContext:context];
+    [self drawLineFromCenterWithContext:context];
 }
+
 
 - (void)drawSideWithContext:(CGContextRef )context {
     
@@ -99,13 +120,28 @@
         CGPoint point = [self.cornerPoints[i] CGPointValue];
         CGContextAddLineToPoint(context, point.x, point.y);
         CGContextSetLineWidth(context, 1);
-        CGContextSetFillColorWithColor(context, [UIColor yellowColor].CGColor);
     }
+    CGContextAddLineToPoint(context, firstPoint.x, firstPoint.y);
+    CGContextSetStrokeColorWithColor(context, self.lineColor.CGColor);
+    CGContextStrokePath(context);
     
 }
 
-- (void)drawLineWithContext:(CGContextRef )context {
-
+- (void)drawLineFromCenterWithContext:(CGContextRef )context {
+    
+    CGFloat centerX = self.bounds.size.width/2;
+    CGFloat centerY = self.bounds.size.height/2;
+    
+    for (int i = 0; i < self.cornerPoints.count; i++) {
+        
+        CGContextMoveToPoint(context, centerX, centerY);
+        CGPoint point = [self.cornerPoints[i] CGPointValue];
+        CGContextAddLineToPoint(context, point.x, point.y);
+        CGContextSetLineWidth(context, 1);
+    }
+    CGContextSetStrokeColorWithColor(context, self.lineColor.CGColor);
+    CGContextStrokePath(context);
+    
 }
 
 
