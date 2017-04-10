@@ -13,10 +13,7 @@
 #define ANGLE_SIN(Angle) sin(M_PI / 180 * (Angle))
 
 
-
-
 @interface AWPolygonView ()
-
 
 @property (nonatomic, assign) NSInteger             sideNum;
 @property (nonatomic, strong) NSArray               *cornerPoints;
@@ -77,6 +74,9 @@
     self.valuePoints = [tempValuePoints copy];
     
 }
+
+
+
 - (NSArray *)getPointsWithRadius:(CGFloat )radius {
     
     CGFloat centerX = self.bounds.size.width/2;
@@ -145,8 +145,7 @@
 }
 
 
-#pragma mark -
-
+#pragma mark - Animation
 
 
 @end
