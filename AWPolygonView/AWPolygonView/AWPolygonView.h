@@ -15,4 +15,9 @@
 @property (nonatomic, strong) UIColor               *valueLineColor;
 @property (nonatomic, assign) CGFloat               radius;
 @property (nonatomic, assign) NSInteger             valueRankNum;
+@property (nonatomic, assign) NSTimeInterval        animationDuration;
+- (void)addStrokeEndAnimation;
+- (void)show;
+
+
 @end

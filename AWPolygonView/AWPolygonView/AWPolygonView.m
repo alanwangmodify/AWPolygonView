@@ -17,6 +17,7 @@
 {
     CGFloat _centerX;
     CGFloat _centerY;
+    BOOL    _toDraw;
 }
 @property (nonatomic, assign) NSInteger                                     sideNum;
 @property (nonatomic, strong) NSArray<NSArray<NSValue *> *>                 *cornerPointArrs;
@@ -40,7 +41,11 @@
     }
     return self;
 }
-
+- (void)didMoveToSuperview {
+    [super didMoveToSuperview];
+    [self show];
+    
+}
 #pragma mark - data
 - (void)prepaeData {
     self.sideNum = self.values.count;
@@ -60,7 +65,9 @@
     if (!self.valueRankNum) {
         self.valueRankNum = 3;
     }
-    
+    if (!self.animationDuration) {
+        self.animationDuration = 0.35;
+    }
 }
 
 - (void)makePoints {
@@ -122,13 +129,18 @@
 }
 #pragma mark - draw
 - (void)drawRect:(CGRect)rect {
-    CGContextRef context = UIGraphicsGetCurrentContext();
-  
-    [self drawSideWithContext:context];
-    [self drawLineFromCenterWithContext:context];
-    [self drawValueSideWithContext:context];
+    if (_toDraw) {
+        CGContextRef context = UIGraphicsGetCurrentContext();
+
+        [self drawSideWithContext:context];
+        [self drawLineFromCenterWithContext:context];
+        [self drawValueSideWithContext:context];
+        _toDraw = NO;
+    }
 
 }
+
+
 
 
 - (void)drawSideWithContext:(CGContextRef )context {
@@ -153,6 +165,15 @@
     }
     CGContextSetStrokeColorWithColor(context, self.lineColor.CGColor);
     CGContextStrokePath(context);
+    
+//    CGMutablePathRef path;
+//    for (int i = 0; i < poins.count; i++) {
+//        CGPathMoveToPoint(path, &CGAffineTransformIdentity, _centerX, _centerY);
+//        CGPoint point = [poins[i] CGPointValue];
+//        CGPathAddLineToPoint(path, &CGAffineTransformIdentity, point.x, point.y);
+//    }
+//    [(CAShapeLayer *)self.layer setPath:path];
+    
     
 }
 
@@ -195,10 +216,23 @@
     CGContextSetFillColorWithColor(context, self.valueLineColor.CGColor);
     CGContextFillPath(context);
     
+    CGMutablePathRef path;
+    
+}
+#pragma mark - Action 
+- (void)show {
+    
+    _toDraw = YES;
+    [self setNeedsDisplay];
+
 }
 
-
 #pragma mark - Animation
-
-
+- (void)addStrokeEndAnimation {
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+    animation.fromValue = @0;
+    animation.toValue = @1;
+    animation.duration = self.animationDuration;
+    [self.layer addAnimation:animation forKey:@"stokeEndAnimation"];
+}
 @end

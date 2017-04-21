@@ -11,6 +11,9 @@
 
 @interface ViewController ()
 
+@property (nonatomic, strong) AWPolygonView *polygonView;
+
+
 @end
 
 @implementation ViewController
@@ -20,11 +23,21 @@
     
     self.view.backgroundColor = [UIColor blackColor];
     
-    AWPolygonView *view = [[AWPolygonView alloc] initWithFrame:CGRectMake(100, 100, 200, 200)];
-    view.values = @[@(0.3),@(0.7),@(0.4),@(0.6),@(0.7),@(0.4)];
-    [self.view addSubview:view];
+    _polygonView = [[AWPolygonView alloc] initWithFrame:CGRectMake(100, 100, 200, 200)];
+    _polygonView.values = @[@(0.3),@(0.7),@(0.4),@(0.6),@(0.7),@(0.4)];
+    [self.view addSubview:_polygonView];
     
 
+    UIButton *btn = [[UIButton alloc] init];
+    btn.frame = CGRectMake(100, 400, 50, 50);
+    [btn addTarget:self action:@selector(starAnimation) forControlEvents:UIControlEventTouchUpInside];
+    btn.backgroundColor = [UIColor yellowColor];
+    [self.view addSubview:btn];
+    
+}
+
+- (void)starAnimation {
+    [_polygonView addStrokeEndAnimation];
 }
 
 
