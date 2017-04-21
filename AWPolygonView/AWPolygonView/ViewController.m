@@ -17,8 +17,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.view.backgroundColor = [UIColor blackColor];
+    
     AWPolygonView *view = [[AWPolygonView alloc] initWithFrame:CGRectMake(100, 100, 200, 200)];
-    view.values = @[@(0.3),@(0.7),@(0.4),@(0.6),@(0.7)];
+    view.values = @[@(0.3),@(0.7),@(0.4),@(0.6),@(0.7),@(0.4)];
     [self.view addSubview:view];
     
 

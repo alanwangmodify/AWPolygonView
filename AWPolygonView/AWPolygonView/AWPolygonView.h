@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) NSArray               *values;
 @property (nonatomic, strong) UIColor               *lineColor;
+@property (nonatomic, strong) UIColor               *valueLineColor;
 @property (nonatomic, assign) CGFloat               radius;
-
+@property (nonatomic, assign) NSInteger             valueRankNum;
 @end
