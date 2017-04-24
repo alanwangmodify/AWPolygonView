@@ -22,7 +22,7 @@
 @property (nonatomic, assign) NSInteger                                     sideNum;
 @property (nonatomic, strong) NSArray<NSArray<NSValue *> *>                 *cornerPointArrs;
 @property (nonatomic, strong) NSArray<NSValue *>                            *valuePoints;
-
+@property (nonatomic, strong) CAShapeLayer                                  *shapeLayer;
 @end
 
 @implementation AWPolygonView
@@ -41,11 +41,31 @@
     }
     return self;
 }
+
+#pragma mark - Overwrite
 - (void)didMoveToSuperview {
     [super didMoveToSuperview];
+    [self.layer addSublayer:self.shapeLayer];
     [self show];
     
+    NSArray *poins = [self.cornerPointArrs lastObject];
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    for (int i = 0; i < poins.count; i++) {
+        [path moveToPoint:CGPointMake(_centerX, _centerY)];
+        CGPoint point = [poins[i] CGPointValue];
+        [path addLineToPoint:point];
+        [path setLineWidth:1];
+    }
+    self.shapeLayer.strokeColor = self.lineColor.CGColor;
+    self.shapeLayer.path = path.CGPath;
 }
+
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.shapeLayer.frame = self.bounds;
+}
+
 #pragma mark - data
 - (void)prepaeData {
     self.sideNum = self.values.count;
@@ -97,9 +117,7 @@
         }
         [tempCornerPointArrs addObject:[tempCornerPoints copy]];
     }
-    
-    
-    
+        
     self.cornerPointArrs = [tempCornerPointArrs copy];
     self.valuePoints = [tempValuePoints copy];
     
@@ -154,26 +172,15 @@
     
 
     NSArray *poins = [self.cornerPointArrs lastObject];
-    
-    
+    UIBezierPath *path = [UIBezierPath bezierPath];
     for (int i = 0; i < poins.count; i++) {
-        
-        CGContextMoveToPoint(context, _centerX, _centerY);
+        [path moveToPoint:CGPointMake(_centerX, _centerY)];
         CGPoint point = [poins[i] CGPointValue];
-        CGContextAddLineToPoint(context, point.x, point.y);
-        CGContextSetLineWidth(context, 1);
+        [path addLineToPoint:point];
+        [path setLineWidth:1];
     }
-    CGContextSetStrokeColorWithColor(context, self.lineColor.CGColor);
-    CGContextStrokePath(context);
-    
-//    CGMutablePathRef path;
-//    for (int i = 0; i < poins.count; i++) {
-//        CGPathMoveToPoint(path, &CGAffineTransformIdentity, _centerX, _centerY);
-//        CGPoint point = [poins[i] CGPointValue];
-//        CGPathAddLineToPoint(path, &CGAffineTransformIdentity, point.x, point.y);
-//    }
-//    [(CAShapeLayer *)self.layer setPath:path];
-    
+    self.shapeLayer.strokeColor = self.lineColor.CGColor;
+    self.shapeLayer.path = path.CGPath;
     
 }
 
@@ -216,7 +223,6 @@
     CGContextSetFillColorWithColor(context, self.valueLineColor.CGColor);
     CGContextFillPath(context);
     
-    CGMutablePathRef path;
     
 }
 #pragma mark - Action 
@@ -226,6 +232,14 @@
     [self setNeedsDisplay];
 
 }
+#pragma makr - Getter MEthod 
+- (CAShapeLayer *)shapeLayer {
+    if (!_shapeLayer) {
+        _shapeLayer = [CAShapeLayer layer];
+    }
+    return _shapeLayer;
+}
+
 
 #pragma mark - Animation
 - (void)addStrokeEndAnimation {
