@@ -22,7 +22,13 @@
 @property (nonatomic, assign) NSInteger                                     sideNum;
 @property (nonatomic, strong) NSArray<NSArray<NSValue *> *>                 *cornerPointArrs;
 @property (nonatomic, strong) NSArray<NSValue *>                            *valuePoints;
+
+@property (nonatomic, strong) CAShapeLayer                                  *valueLayer;
 @property (nonatomic, strong) CAShapeLayer                                  *shapeLayer;
+
+@property (nonatomic, strong) UIBezierPath                                  *bezierPath;
+
+
 @end
 
 @implementation AWPolygonView
@@ -46,19 +52,13 @@
 - (void)didMoveToSuperview {
     [super didMoveToSuperview];
     [self.layer addSublayer:self.shapeLayer];
+    [self drawLineFromCenter];
+    [self drawValueSide];
+    self.shapeLayer.path = self.bezierPath.CGPath;
+    [self addStrokeEndAnimation];
     [self show];
     
-    NSArray *poins = [self.cornerPointArrs lastObject];
-    UIBezierPath *path = [UIBezierPath bezierPath];
-    for (int i = 0; i < poins.count; i++) {
-        [path moveToPoint:CGPointMake(_centerX, _centerY)];
-        CGPoint point = [poins[i] CGPointValue];
-        [path addLineToPoint:point];
-        [path setLineWidth:1];
-    }
-    self.shapeLayer.strokeColor = self.lineColor.CGColor;
-    self.shapeLayer.path = path.CGPath;
-    [self addStrokeEndAnimation];
+
 }
 
 
@@ -152,8 +152,6 @@
         CGContextRef context = UIGraphicsGetCurrentContext();
 
         [self drawSideWithContext:context];
-        [self drawLineFromCenterWithContext:context];
-        [self drawValueSideWithContext:context];
         _toDraw = NO;
     }
 
@@ -169,20 +167,18 @@
 }
 
 
-- (void)drawLineFromCenterWithContext:(CGContextRef )context {
+- (void)drawLineFromCenter {
     
-
     NSArray *poins = [self.cornerPointArrs lastObject];
-    UIBezierPath *path = [UIBezierPath bezierPath];
+    
     for (int i = 0; i < poins.count; i++) {
-        [path moveToPoint:CGPointMake(_centerX, _centerY)];
+        [self.bezierPath moveToPoint:CGPointMake(_centerX, _centerY)];
         CGPoint point = [poins[i] CGPointValue];
-        [path addLineToPoint:point];
-        [path setLineWidth:1];
+        [self.bezierPath addLineToPoint:point];
+        [self.bezierPath setLineWidth:1];
     }
     self.shapeLayer.strokeColor = self.lineColor.CGColor;
-    self.shapeLayer.path = path.CGPath;
-    
+
 }
 
 
@@ -207,22 +203,22 @@
 }
 
 
-- (void)drawValueSideWithContext:(CGContextRef )context {
+- (void)drawValueSide{
     
     if (self.valuePoints.count == 0) {
         return;
     }
     CGPoint firstPoint = [[self.valuePoints firstObject] CGPointValue];
-    CGContextMoveToPoint(context, firstPoint.x, firstPoint.y);
+    
+    [self.bezierPath moveToPoint:firstPoint];
     for (int i = 1; i < self.valuePoints.count; i++) {
         
         CGPoint point = [self.valuePoints[i] CGPointValue];
-        CGContextAddLineToPoint(context, point.x, point.y);
-        CGContextSetLineWidth(context, 1);
+        [self.bezierPath addLineToPoint:point];
+        self.bezierPath.lineWidth = 1;
     }
-    CGContextAddLineToPoint(context, firstPoint.x, firstPoint.y);
-    CGContextSetFillColorWithColor(context, self.valueLineColor.CGColor);
-    CGContextFillPath(context);
+    [self.bezierPath addLineToPoint:firstPoint];
+    self.shapeLayer.fillColor = self.valueLineColor.CGColor;
     
     
 }
@@ -240,7 +236,12 @@
     }
     return _shapeLayer;
 }
-
+- (UIBezierPath *)bezierPath {
+    if (!_bezierPath) {
+        _bezierPath = [UIBezierPath bezierPath];
+    }
+    return _bezierPath;
+}
 
 #pragma mark - Animation
 - (void)addStrokeEndAnimation {
