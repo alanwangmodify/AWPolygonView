@@ -58,6 +58,7 @@
     }
     self.shapeLayer.strokeColor = self.lineColor.CGColor;
     self.shapeLayer.path = path.CGPath;
+    [self addStrokeEndAnimation];
 }
 
 
@@ -86,7 +87,7 @@
         self.valueRankNum = 3;
     }
     if (!self.animationDuration) {
-        self.animationDuration = 0.35;
+        self.animationDuration = 2.35;
     }
 }
 
@@ -117,7 +118,7 @@
         }
         [tempCornerPointArrs addObject:[tempCornerPoints copy]];
     }
-        
+    
     self.cornerPointArrs = [tempCornerPointArrs copy];
     self.valuePoints = [tempValuePoints copy];
     
@@ -247,6 +248,6 @@
     animation.fromValue = @0;
     animation.toValue = @1;
     animation.duration = self.animationDuration;
-    [self.layer addAnimation:animation forKey:@"stokeEndAnimation"];
+    [self.shapeLayer addAnimation:animation forKey:@"stokeEndAnimation"];
 }
 @end
