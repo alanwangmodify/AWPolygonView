@@ -27,6 +27,7 @@
 @property (nonatomic, strong) CAShapeLayer                                  *shapeLayer;
 
 @property (nonatomic, strong) UIBezierPath                                  *bezierPath;
+@property (nonatomic, strong) UIBezierPath                                  *valuePath;
 
 
 @end
@@ -52,11 +53,12 @@
 - (void)didMoveToSuperview {
     [super didMoveToSuperview];
     [self.layer addSublayer:self.shapeLayer];
+    [self.layer addSublayer:self.valueLayer];
     [self drawLineFromCenter];
     [self drawValueSide];
+    [self drawSide];
     self.shapeLayer.path = self.bezierPath.CGPath;
-    [self addStrokeEndAnimation];
-    [self show];
+    [self addStrokeEndAnimationToLayer:self.shapeLayer];
     
 
 }
@@ -65,6 +67,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.shapeLayer.frame = self.bounds;
+    self.valueLayer.frame = self.bounds;
 }
 
 #pragma mark - data
@@ -87,16 +90,16 @@
         self.valueRankNum = 3;
     }
     if (!self.animationDuration) {
-        self.animationDuration = 2.35;
+        self.animationDuration = 1.35;
     }
 }
+
 
 - (void)makePoints {
     
     
     NSMutableArray *tempValuePoints = [NSMutableArray new];
     NSMutableArray *tempCornerPointArrs = [NSMutableArray new];
-    
     
     //Values
     for (int i = 0; i < self.sideNum; i++) {
@@ -147,23 +150,28 @@
 
 }
 #pragma mark - draw
-- (void)drawRect:(CGRect)rect {
-    if (_toDraw) {
-        CGContextRef context = UIGraphicsGetCurrentContext();
-
-        [self drawSideWithContext:context];
-        _toDraw = NO;
+- (void)drawSide {
+    for (NSArray *points in self.cornerPointArrs) {
+        [self drawLineWithPoints:points color:self.lineColor];
     }
-
 }
 
 
-
-
-- (void)drawSideWithContext:(CGContextRef )context {
-    for (NSArray *ponis in self.cornerPointArrs) {
-        [self drawLineWithContext:context points:ponis color:self.lineColor];
+- (void)drawLineWithPoints:(NSArray<NSValue *> *)points color:(UIColor *)color{
+    if (points.count == 0) {
+        return;
     }
+    CGPoint firstPoint = [points[0] CGPointValue];
+    
+    [_bezierPath moveToPoint:firstPoint];
+    for (int i = 1; i < points.count; i++) {
+        
+        CGPoint point = [points[i] CGPointValue];
+        [_bezierPath addLineToPoint:point];
+        _bezierPath.lineWidth = 1;
+    }
+    [_bezierPath addLineToPoint:firstPoint];
+    
 }
 
 
@@ -182,27 +190,6 @@
 }
 
 
-- (void)drawLineWithContext:(CGContextRef )context points:(NSArray<NSValue *> *)points color:(UIColor *)color{
-    if (points.count == 0) {
-        return;
-    }
-    CGPoint firstPoint = [points[0] CGPointValue];
-    CGContextMoveToPoint(context, firstPoint.x, firstPoint.y);
-    
-    for (int i = 1; i < points.count; i++) {
-        
-        CGPoint point = [points[i] CGPointValue];
-        CGContextAddLineToPoint(context, point.x, point.y);
-        CGContextSetLineWidth(context, 1);
-    }
-    
-    CGContextAddLineToPoint(context, firstPoint.x, firstPoint.y);
-    CGContextSetStrokeColorWithColor(context, color.CGColor);
-    CGContextStrokePath(context);
-    
-}
-
-
 - (void)drawValueSide{
     
     if (self.valuePoints.count == 0) {
@@ -210,16 +197,17 @@
     }
     CGPoint firstPoint = [[self.valuePoints firstObject] CGPointValue];
     
-    [self.bezierPath moveToPoint:firstPoint];
+    [self.valuePath moveToPoint:firstPoint];
     for (int i = 1; i < self.valuePoints.count; i++) {
         
         CGPoint point = [self.valuePoints[i] CGPointValue];
-        [self.bezierPath addLineToPoint:point];
-        self.bezierPath.lineWidth = 1;
+        [self.valuePath addLineToPoint:point];
+        self.valuePath.lineWidth = 1;
     }
-    [self.bezierPath addLineToPoint:firstPoint];
-    self.shapeLayer.fillColor = self.valueLineColor.CGColor;
-    
+    [self.valuePath addLineToPoint:firstPoint];
+    self.valueLayer.fillColor = self.valueLineColor.CGColor;
+    self.valueLayer.strokeColor = self.valueLineColor.CGColor;
+    self.valueLayer.path = self.valuePath.CGPath;
     
 }
 #pragma mark - Action 
@@ -236,19 +224,43 @@
     }
     return _shapeLayer;
 }
+
+- (CAShapeLayer *)valueLayer {
+    if (!_valueLayer) {
+        _valueLayer = [CAShapeLayer layer];
+    }
+    return _valueLayer;
+}
+
 - (UIBezierPath *)bezierPath {
     if (!_bezierPath) {
         _bezierPath = [UIBezierPath bezierPath];
     }
     return _bezierPath;
 }
+- (UIBezierPath *)valuePath {
+    if (!_valuePath) {
+        _valuePath = [UIBezierPath bezierPath];
+    }
+    return _bezierPath;
+}
 
 #pragma mark - Animation
-- (void)addStrokeEndAnimation {
+- (void)addStrokeEndAnimationToLayer:(CAShapeLayer *)layer {
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
     animation.fromValue = @0;
     animation.toValue = @1;
     animation.duration = self.animationDuration;
-    [self.shapeLayer addAnimation:animation forKey:@"stokeEndAnimation"];
+    [layer addAnimation:animation forKey:@"stokeEndAnimation"];
+}
+
+- (void)addFillEndAnimationToLayer:(CAShapeLayer *)layer {
+    
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"fillEnd"];
+    animation.fromValue = @0;
+    animation.toValue = @1;
+    animation.duration = self.animationDuration;
+    [layer addAnimation:animation forKey:@"fillEndAnimation"];
+    
 }
 @end

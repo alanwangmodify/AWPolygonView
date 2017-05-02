@@ -37,7 +37,7 @@
 }
 
 - (void)starAnimation {
-    [_polygonView addStrokeEndAnimation];
+    
 }
 
 
