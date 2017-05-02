@@ -59,7 +59,7 @@
     [self drawSide];
     self.shapeLayer.path = self.bezierPath.CGPath;
     [self addStrokeEndAnimationToLayer:self.shapeLayer];
-    
+    [self addFillEndAnimationToLayer:self.valueLayer];
 
 }
 
