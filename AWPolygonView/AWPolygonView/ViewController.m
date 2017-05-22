@@ -21,8 +21,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-
-
     UIButton *btn = [[UIButton alloc] init];
     btn.frame = CGRectMake(100, 400, 50, 50);
     [btn addTarget:self action:@selector(starAnimation) forControlEvents:UIControlEventTouchUpInside];

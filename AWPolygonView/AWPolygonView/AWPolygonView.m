@@ -59,7 +59,6 @@
     [self drawSide];
     self.shapeLayer.path = self.bezierPath.CGPath;
     [self addStrokeEndAnimationToLayer:self.shapeLayer];
-    [self addFillEndAnimationToLayer:self.valueLayer];
 
 }
 
@@ -105,7 +104,8 @@
     for (int i = 0; i < self.sideNum; i++) {
         if (self.values.count > i) {
             CGFloat valueRadius = [self.values[i] floatValue] * self.radius;
-            CGPoint valuePoint =  CGPointMake(_centerX - ANGLE_COS(90.0 - 360.0 /self.sideNum * i) * valueRadius, _centerY - ANGLE_SIN(90.0 - 360.0 /self.sideNum * i) * valueRadius);
+            CGPoint valuePoint =  CGPointMake(_centerX - ANGLE_COS(90.0 - 360.0 /self.sideNum * i) * valueRadius,
+                                              _centerY - ANGLE_SIN(90.0 - 360.0 /self.sideNum * i) * valueRadius);
             [tempValuePoints addObject:[NSValue valueWithCGPoint:valuePoint]];
         }
     }
@@ -116,7 +116,8 @@
         NSMutableArray *tempCornerPoints = [NSMutableArray new];
         for (int i = 0; i < self.sideNum; i++) {
             NSInteger rank = j+1;
-            CGPoint cornerPoint = CGPointMake(_centerX - ANGLE_COS(90.0 - 360.0 /self.sideNum * i) * rankValue * rank, _centerY - ANGLE_SIN(90.0 - 360.0 /self.sideNum * i) * rankValue * rank);
+            CGPoint cornerPoint = CGPointMake(_centerX - ANGLE_COS(90.0 - 360.0 /self.sideNum * i) * rankValue * rank,
+                                              _centerY - ANGLE_SIN(90.0 - 360.0 /self.sideNum * i) * rankValue * rank);
             [tempCornerPoints addObject:[NSValue valueWithCGPoint:cornerPoint]];
         }
         [tempCornerPointArrs addObject:[tempCornerPoints copy]];
@@ -135,7 +136,8 @@
 
     for (int i = 0; i < self.sideNum; i++) {
         
-        CGPoint cornerPoint = CGPointMake(_centerX - ANGLE_COS(90.0 - 360.0 /self.sideNum * i) * self.radius, _centerY - ANGLE_SIN(90.0 - 360.0 /self.sideNum * i) * self.radius);
+        CGPoint cornerPoint = CGPointMake(_centerX - ANGLE_COS(90.0 - 360.0 /self.sideNum * i) * self.radius,
+                                          _centerY - ANGLE_SIN(90.0 - 360.0 /self.sideNum * i) * self.radius);
         
         [inCornerPoints addObject:[NSValue valueWithCGPoint:cornerPoint]];
     }
@@ -254,13 +256,4 @@
     [layer addAnimation:animation forKey:@"stokeEndAnimation"];
 }
 
-- (void)addFillEndAnimationToLayer:(CAShapeLayer *)layer {
-    
-    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"fillEnd"];
-    animation.fromValue = @0;
-    animation.toValue = @1;
-    animation.duration = self.animationDuration;
-    [layer addAnimation:animation forKey:@"fillEndAnimation"];
-    
-}
 @end

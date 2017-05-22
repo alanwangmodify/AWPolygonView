@@ -13,7 +13,7 @@
 @property (nonatomic, strong) NSArray               *values;
 @property (nonatomic, strong) UIColor               *lineColor;
 @property (nonatomic, strong) UIColor               *valueLineColor;
-@property (nonatomic, assign) CGFloat               radius;
+@property (nonatomic, assign) CGFloat               radius;//半径
 @property (nonatomic, assign) NSInteger             valueRankNum;
 @property (nonatomic, assign) NSTimeInterval        animationDuration;
 
