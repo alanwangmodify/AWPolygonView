@@ -32,7 +32,8 @@
 }
 
 - (void)starAnimation {
-    ShowViewController *vc = [[ShowViewController alloc] init]
+    ShowViewController *vc = [[ShowViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
     
 }
 
