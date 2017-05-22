@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E4F83C51ED2CC7100F11020 /* ShowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E4F83C41ED2CC7100F11020 /* ShowViewController.m */; };
 		5EBF789E1E80D38200682E58 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EBF789D1E80D38200682E58 /* main.m */; };
 		5EBF78A11E80D38200682E58 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EBF78A01E80D38200682E58 /* AppDelegate.m */; };
 		5EBF78A41E80D38200682E58 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EBF78A31E80D38200682E58 /* ViewController.m */; };
@@ -36,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2E4F83C31ED2CC7100F11020 /* ShowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowViewController.h; sourceTree = "<group>"; };
+		2E4F83C41ED2CC7100F11020 /* ShowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowViewController.m; sourceTree = "<group>"; };
 		5EBF78991E80D38200682E58 /* AWPolygonView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AWPolygonView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EBF789D1E80D38200682E58 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5EBF789F1E80D38200682E58 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -108,6 +111,8 @@
 				5EBF78A01E80D38200682E58 /* AppDelegate.m */,
 				5EBF78A21E80D38200682E58 /* ViewController.h */,
 				5EBF78A31E80D38200682E58 /* ViewController.m */,
+				2E4F83C31ED2CC7100F11020 /* ShowViewController.h */,
+				2E4F83C41ED2CC7100F11020 /* ShowViewController.m */,
 				5EBF78CF1E80D39C00682E58 /* AWPolygonView.h */,
 				5EBF78D01E80D39C00682E58 /* AWPolygonView.m */,
 				5EBF78A51E80D38200682E58 /* Main.storyboard */,
@@ -282,6 +287,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5EBF78A41E80D38200682E58 /* ViewController.m in Sources */,
+				2E4F83C51ED2CC7100F11020 /* ShowViewController.m in Sources */,
 				5EBF78D11E80D39C00682E58 /* AWPolygonView.m in Sources */,
 				5EBF78A11E80D38200682E58 /* AppDelegate.m in Sources */,
 				5EBF789E1E80D38200682E58 /* main.m in Sources */,

@@ -8,10 +8,10 @@
 
 #import "ViewController.h"
 #import "AWPolygonView.h"
+#import "ShowViewController.h"
 
 @interface ViewController ()
 
-@property (nonatomic, strong) AWPolygonView *polygonView;
 
 
 @end
@@ -21,12 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor blackColor];
-    
-    _polygonView = [[AWPolygonView alloc] initWithFrame:CGRectMake(100, 100, 200, 200)];
-    _polygonView.values = @[@(0.3),@(0.7),@(0.4),@(0.6),@(0.7),@(0.4)];
-    [self.view addSubview:_polygonView];
-    
+
 
     UIButton *btn = [[UIButton alloc] init];
     btn.frame = CGRectMake(100, 400, 50, 50);
@@ -37,6 +32,7 @@
 }
 
 - (void)starAnimation {
+    ShowViewController *vc = [[ShowViewController alloc] init]
     
 }
 
