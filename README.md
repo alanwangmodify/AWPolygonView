@@ -7,7 +7,5 @@
 
 Featrue:可以自己调整为几边形、颜色、能力值等。
 
-
-### 三、展示效果
 接下来是展示动画效果：
 ![animation.gif](http://upload-images.jianshu.io/upload_images/1819750-905e41d61a6532f9.gif?imageMogr2/auto-orient/strip)
