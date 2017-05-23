@@ -122,7 +122,7 @@
         }
         [tempCornerPointArrs addObject:[tempCornerPoints copy]];
     }
-    
+
     self.cornerPointArrs = [tempCornerPointArrs copy];
     self.valuePoints = [tempValuePoints copy];
     
@@ -173,7 +173,7 @@
         _bezierPath.lineWidth = 1;
     }
     [_bezierPath addLineToPoint:firstPoint];
-    
+
 }
 
 
@@ -188,6 +188,7 @@
         [self.bezierPath setLineWidth:1];
     }
     self.shapeLayer.strokeColor = self.lineColor.CGColor;
+
 
 }
 
