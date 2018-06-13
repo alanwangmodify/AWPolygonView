@@ -217,7 +217,7 @@
 				TargetAttributes = {
 					5EBF78981E80D38200682E58 = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = NUJ39R3X5E;
+						DevelopmentTeam = GD7D5R7GD4;
 						ProvisioningStyle = Automatic;
 					};
 					5EBF78B11E80D38200682E58 = {
@@ -437,7 +437,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = NUJ39R3X5E;
+				DEVELOPMENT_TEAM = GD7D5R7GD4;
 				INFOPLIST_FILE = AWPolygonView/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = AlanWang.AWPolygonView;
@@ -449,7 +449,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = NUJ39R3X5E;
+				DEVELOPMENT_TEAM = GD7D5R7GD4;
 				INFOPLIST_FILE = AWPolygonView/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = AlanWang.AWPolygonView;

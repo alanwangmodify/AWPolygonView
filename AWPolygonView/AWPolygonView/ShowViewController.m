@@ -2,7 +2,7 @@
 //  ShowViewController.m
 //  AWPolygonView
 //
-//  Created by fenqile on 17/5/22.
+//  Created by alanwang on 17/5/22.
 //  Copyright © 2017年 AlanWang. All rights reserved.
 //
 
